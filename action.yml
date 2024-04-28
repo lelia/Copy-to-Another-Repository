@@ -85,16 +85,19 @@ runs:
         path: "${{ env.TMP_DSTDIR }}"
         repository: "${{ inputs.output-repo }}"
 
-    - working-directory: "${{ env.TMP_DSTDIR }}"
-      run: |
-       git config --global user.name "${{ inputs.git-name }}"
-       git config --global user.email "${{ inputs.git-email }}"
-       git config --global url."https://${{ inputs.git-token }}@github.com/".insteadOf "https://github.com/"
-       mkdir -p "${{ inputs.output-directory }}"
-      shell: bash
+    # - working-directory: "${{ env.TMP_DSTDIR }}"
+    #   run: |
+    #    git config --global user.name "${{ inputs.git-name }}"
+    #    git config --global user.email "${{ inputs.git-email }}"
+    #    git config --global url."https://${{ inputs.git-token }}@github.com/".insteadOf "https://github.com/"
+    #    mkdir -p "${{ inputs.output-directory }}"
+    #   shell: bash
     
     - working-directory: "${{ env.TMP_DSTDIR }}"
       run: |
+        git config --global user.name "${{ inputs.git-name }}"
+        git config --global user.email "${{ inputs.git-email }}"
+        git config --global url."https://${{ inputs.git-token }}@github.com/".insteadOf "https://github.com/"
         git checkout -b "${{ env.PR_BRANCH }}"
         # shopt -s dotglob
         # mv -vf ../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }} ${{ inputs.output-directory }}/
