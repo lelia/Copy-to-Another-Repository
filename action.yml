@@ -1,43 +1,61 @@
-name: 'Copy to Another Repository'
-description: 'Copy selected file to another repository and create Pull Request (PR).'
-author: 'Sator Imaging'
+name: "Copy to Another Repository"
+description: "Copy selected files to another repository and create Pull Request (PR)."
+author: "Sator Imaging"
 branding:
   icon: copy
   color: purple
 
-
 inputs:
-  target-filepath:
+  target-repo:
+    required: false
+    description: "Name of remote repository to copy file(s) from."
+    default: "cisco-ospo/sample-project"
+  target-path:
     required: true
-    description: 'File path to copy.'
+    description: "File/folder path(s) to copy to the output repository."
+    default: "./*"
   output-repo:
     required: true
-    description: 'Owner/AnotherRepository'
+    description: "Name of the org/repo where the pull request will be filed."
+    default: "cisco-ospo/outbound-review"
   output-branch:
     required: true
-    description: 'Branch name on output repository to create pull request.'
+    description: "Base branch name to file the pull request against."
+    default: "main"
   commit-message-prefix:
-    default: '[actions] '
+    required: false
+    description: "Prefix for the git commit message."
+    default: "[actions] "
   output-directory:
+    required: false
+    description: "Output directory to copy the file(s) to."
     default: "${{ github.event.repository.name }}"
   pr-branch-prefix:
+    required: false
+    description: "Prefix for the pull request branch name."
     default: "actions/${{ github.event.repository.name }}"
   pr-title:
-    default: "GitHub Actions: ${{ github.event.repository.name }}"
+    required: false
+    description: "Title for the GitHub pull request."
+    default: "🤖 GitHub Actions: ${{ github.event.repository.name }}"
   pr-message:
+    required: false
+    description: "Description for the GitHub pull request."
     default: "${{ github.workflow }} on ${{ github.server_url }}/${{ github.repository }}"
   git-name:
+    required: false
+    description: "Name of the committer/bot filing the pull request."
     default: "github-actions[bot]"
   git-email:
-    description: 'Use your "@users.noreply.github.com" address if you want your icon shown in commit messages.'
-    default: 'github-actions[bot]@users.noreply.github.com'
+    required: false
+    description: "Use your `@users.noreply.github.com` address if you want your icon shown in commit messages."
+    default: "github-actions[bot]@users.noreply.github.com"
   git-token:
     required: true
-    description: 'Personal Access Token used to commit/create PR on output repository.'
-
+    description: "Personal Access Token used to commit/create PR on output repository."
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - run: echo '::echo::on'
       shell: bash
@@ -56,22 +74,22 @@ runs:
       shell: bash
     - run: echo "TMP_DSTDIR=./dest" >> $GITHUB_ENV
       shell: bash
-    - run: echo "PR_TITLE_APPENDIX= - ${{ inputs.target-filepath }}" >> $GITHUB_ENV
+    - run: echo "PR_TITLE_APPENDIX= - ${{ inputs.target-path }}" >> $GITHUB_ENV
       shell: bash
-    - run: echo "COMMIT_TITLE_APPENDIX= - ${{ inputs.target-filepath }}" >> $GITHUB_ENV
+    - run: echo "COMMIT_TITLE_APPENDIX= - ${{ inputs.target-path }}" >> $GITHUB_ENV
       shell: bash
 
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
       with:
         persist-credentials: false
         path: "${{ env.TMP_SRCDIR }}"
+        repository: "${{ inputs.target-repo }}"
 
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
       with:
         persist-credentials: false
         path: "${{ env.TMP_DSTDIR }}"
         repository: "${{ inputs.output-repo }}"
-
 
     - run: git config --global user.name "${{ inputs.git-name }}"
       shell: bash
@@ -95,7 +113,7 @@ runs:
       shell: bash
 
     - working-directory: "${{ env.TMP_DSTDIR }}"
-      run: mv -f "../${{ env.TMP_SRCDIR }}/${{ inputs.target-filepath }}" "${{ inputs.output-directory }}"
+      run: mv -f "../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }}" "${{ inputs.output-directory }}"
       shell: bash
 
     - working-directory: "${{ env.TMP_DSTDIR }}"
