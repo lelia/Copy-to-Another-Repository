@@ -15,7 +15,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'README.md'  # limit trigger to the target-filepath.
+      - 'README.md'  # limit trigger to the target-path.
                      # It's not elegant to set same value in two options but
                      # there is no way to retrieve this value in composite action.
 
@@ -27,14 +27,14 @@ jobs:
         with:
 
           # required parameters
-          target-filepath: 'README.md'      # file path(s) to copy
-          output-branch: 'main or master'   # branch name to create pull request
-          output-repo: 'Owner/AnotherRepository' # name of org/repo to copy file(s) and open PR
-          git-token: ${{ secrets.TOKEN_TO_ACCESS_OUTPUT_REPO }}
+          target-path: 'README.md'   # file/folder path(s) to copy
+          output-branch: "main"   # base branch name to file pull request against
+          output-repo: 'Owner/AnotherRepository'   # name of org/repo to copy file(s) and open PR
+          git-token: ${{ secrets.TOKEN_TO_ACCESS_OUTPUT_REPO }}   # name of GitHub token
           
           # optional parameters and default values
-          target-repo: 'AnotherOwner/AnotherRepository' # name of remote org/repo to copy file(s) from
-          commit-message-prefix: '[actions] '   # followed by source repository and file name
+          target-repo: "AnotherOwner/AnotherRepository"   # name of remote org/repo to copy file(s) from
+          commit-message-prefix: "[actions] "   # followed by source repository and file name
           output-directory: "${{ github.event.repository.name }}"   # copy file into sub directory
           pr-branch-prefix: "actions/${{ github.event.repository.name }}"   # branch name prefix followed by date and time
           pr-title: "GitHub Actions: ${{ github.event.repository.name }}"   # followed by source repository and file name
