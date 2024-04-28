@@ -104,7 +104,7 @@ runs:
         # ls -la ${{ inputs.output-directory }}/*
         # mv -vf ../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }} ${{ inputs.output-directory }}/
         git checkout -b "${{ env.PR_BRANCH }}"
-        git remote add ${{ inputs.target-repo }} git@github.com:${{ inputs.target-repo }}.git
+        git remote add ${{ inputs.target-repo }} https://github.com/${{ inputs.target-repo }}
         git subtree add --prefix=${{ inputs.output-directory }} ${{ inputs.target-repo }} ${{ inputs.output-branch }} --squash
         git subtree pull --prefix=${{ inputs.output-directory }} ${{ inputs.target-repo }} ${{ inputs.output-branch }} --squash
         git subtree push --prefix=${{ inputs.output-directory }} ${{ inputs.target-repo }} "${{ env.PR_BRANCH }}"
