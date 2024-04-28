@@ -96,9 +96,9 @@ runs:
     - working-directory: "${{ env.TMP_DSTDIR }}"
       run: |
         git checkout -b "${{ env.PR_BRANCH }}"
-        shopt -s dotglob
-        mv -vf ../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }} ${{ inputs.output-directory }}/
-        ls -la ${{ inputs.output-directory }}/*
+        # shopt -s dotglob
+        # mv -vf ../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }} ${{ inputs.output-directory }}/
+        # ls -la ${{ inputs.output-directory }}/*
         # mv -vf ../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }} ${{ inputs.output-directory }}/
         git subtree add --prefix ${{ inputs.output-directory }} https://github.com/${{ inputs.target-repo }} ${{ inputs.output-branch }} --squash
         # git submodule add https://github.com/${{ inputs.target-repo }} outbound-review
