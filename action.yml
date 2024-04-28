@@ -99,12 +99,12 @@ runs:
       shell: bash
 
       # we cannot change current directory
-    - run: |
-        cd "${{ env.TMP_DSTDIR }}"
-        pwd
-        ls -l ./*
-        ls -l ../${{ env.TMP_SRCDIR }}/*
-      shell: bash
+    #- run: |
+      #  cd "${{ env.TMP_DSTDIR }}"
+      #  pwd
+      #  ls -l ./*
+      #  ls -l ../${{ env.TMP_SRCDIR }}/*
+      #shell: bash
 
     - working-directory: "${{ env.TMP_DSTDIR }}"
       run: |
