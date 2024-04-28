@@ -104,6 +104,7 @@ runs:
         # ls -la ${{ inputs.output-directory }}/*
         # mv -vf ../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }} ${{ inputs.output-directory }}/
         git subtree add --prefix ${{ inputs.output-directory }} https://github.com/${{ inputs.target-repo }} ${{ inputs.output-branch }} --squash
+        git remote add ${{ inputs.target-repo }} https://github.com/${{ inputs.target-repo }}
         git subtree push --prefix=${{ inputs.output-directory }} https://github.com/${{ inputs.target-repo }} "${{ env.PR_BRANCH }}"
         # git submodule add https://github.com/${{ inputs.target-repo }} outbound-review
         # git add "${{ inputs.output-directory }}/."
