@@ -13,7 +13,7 @@ inputs:
   target-path:
     required: true
     description: "File/folder path(s) to copy to the output repository."
-    default: "*"
+    default: ""
   output-repo:
     required: true
     description: "Name of the org/repo where the pull request will be filed."
@@ -101,7 +101,6 @@ runs:
       shell: bash
     
     - working-directory: "${{ env.TMP_DSTDIR }}"
-      # mv -vf "../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }}" "../${{ inputs.output-directory }}"
       run: |
         # git checkout -b "${{ env.PR_BRANCH }}"
         echo "working directory: $(pwd)"
@@ -114,9 +113,9 @@ runs:
         echo "../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }}"
         echo "../${{ inputs.output-directory }}/"
         # ls -l  "../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }}"
-        # mv -f "../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }}" "../${{ inputs.output-directory }}/"
+        mv -f "../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }}" "../${{ inputs.output-directory }}/"
         # mv -f /home/runner/work/outbound-review/outbound-review/source/* /home/runner/work/outbound-review/outbound-review/${{ inputs.output-directory }}/
-        # ls -l "../${{ inputs.output-directory }}/"
+        ls -l "../${{ inputs.output-directory }}/"
         # git add "${{ inputs.output-directory }}/."
         # git commit -am "${{ inputs.commit-message-prefix }}${{ github.event.repository.name }}${{ env.COMMIT_TITLE_APPENDIX }}"
         # git push origin HEAD
