@@ -103,7 +103,7 @@ runs:
         cd "${{ env.TMP_DSTDIR }}"
         pwd
         ls -l ./*
-        ls -l ../TMP_SRCDIR/*
+        ls -l ../${{ env.TMP_SRCDIR }}/*
       shell: bash
 
     - working-directory: "${{ env.TMP_DSTDIR }}"
