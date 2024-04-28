@@ -13,7 +13,7 @@ inputs:
   target-path:
     required: true
     description: "File/folder path(s) to copy to the output repository."
-    default: ""
+    default: "*"
   output-repo:
     required: true
     description: "Name of the org/repo where the pull request will be filed."
@@ -103,14 +103,14 @@ runs:
     
     - working-directory: "${{ env.TMP_DSTDIR }}"
       run: |
-        # git checkout -b "${{ env.PR_BRANCH }}"
+        git checkout -b "${{ env.PR_BRANCH }}"
         shopt -s dotglob
-        mv -vf ../${{ env.TMP_SRCDIR }}/* ${{ inputs.output-directory }}/
+        mv -vf ../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }} ${{ inputs.output-directory }}/
         ls -la ${{ inputs.output-directory }}/
-        # git add "${{ inputs.output-directory }}/."
-        # git commit -am "${{ inputs.commit-message-prefix }}${{ github.event.repository.name }}${{ env.COMMIT_TITLE_APPENDIX }}"
-        # git push origin HEAD
+        git add "${{ inputs.output-directory }}/."
+        git commit -am "${{ inputs.commit-message-prefix }}${{ github.event.repository.name }}${{ env.COMMIT_TITLE_APPENDIX }}"
+        git push origin HEAD
       shell: bash
   
-    #- run: curl -X POST -H "Accept:application/vnd.github.v3+json" "https://${{ inputs.git-token }}@api.github.com/repos/${{ inputs.output-repo }}/pulls" -d "{ \"title\":\"${{ inputs.pr-title }}${{ env.PR_TITLE_APPENDIX }}\", \"body\":\"${{ env.PR_MESSAGE }}\", \"head\":\"${{ env.PR_BRANCH }}\", \"base\":\"${{ inputs.output-branch }}\" }"
-    #  shell: bash
+    - run: curl -X POST -H "Accept:application/vnd.github.v3+json" "https://${{ inputs.git-token }}@api.github.com/repos/${{ inputs.output-repo }}/pulls" -d "{ \"title\":\"${{ inputs.pr-title }}${{ env.PR_TITLE_APPENDIX }}\", \"body\":\"${{ env.PR_MESSAGE }}\", \"head\":\"${{ env.PR_BRANCH }}\", \"base\":\"${{ inputs.output-branch }}\" }"
+      shell: bash
