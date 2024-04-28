@@ -103,9 +103,10 @@ runs:
       run: |
         git checkout -b "${{ env.PR_BRANCH }}"
         pwd
-        ls -l /home/runner/work/outbound-review/outbound-review/source/*
-        mv -f /home/runner/work/outbound-review/outbound-review/source/* /home/runner/work/outbound-review/outbound-review/${{ inputs.output-directory }}/
-        ls -l /home/runner/work/outbound-review/outbound-review/${{ inputs.output-directory }}/*
+        ls -l  "../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }}"
+        mv -f "../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }}" "../${{ inputs.output-directory }}/"
+        # mv -f /home/runner/work/outbound-review/outbound-review/source/* /home/runner/work/outbound-review/outbound-review/${{ inputs.output-directory }}/
+        ls -l "../${{ inputs.output-directory }}/"
         # git add "${{ inputs.output-directory }}/."
         # git commit -am "${{ inputs.commit-message-prefix }}${{ github.event.repository.name }}${{ env.COMMIT_TITLE_APPENDIX }}"
         # git push origin HEAD
