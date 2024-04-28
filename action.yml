@@ -98,13 +98,13 @@ runs:
         git config --global user.name "${{ inputs.git-name }}"
         git config --global user.email "${{ inputs.git-email }}"
         git config --global url."https://${{ inputs.git-token }}@github.com/".insteadOf "https://github.com/"
-        git checkout -b "${{ env.PR_BRANCH }}"
+        # git checkout -b "${{ env.PR_BRANCH }}"
         # shopt -s dotglob
         # mv -vf ../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }} ${{ inputs.output-directory }}/
         # ls -la ${{ inputs.output-directory }}/*
         # mv -vf ../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }} ${{ inputs.output-directory }}/
         git subtree add --prefix ${{ inputs.output-directory }} https://github.com/${{ inputs.target-repo }} ${{ inputs.output-branch }} --squash
-        git subtree push --prefix=${{ inputs.output-directory }} ${{ inputs.output-branch }} ${{ env.PR_BRANCH }}
+        git subtree push --prefix=${{ inputs.output-directory }} ${{ inputs.output-branch }} ${{ inputs.output-branch }} 
         # git submodule add https://github.com/${{ inputs.target-repo }} outbound-review
         # git add "${{ inputs.output-directory }}/."
         # git commit -am "${{ inputs.commit-message-prefix }}${{ github.event.repository.name }}${{ env.COMMIT_TITLE_APPENDIX }}"
