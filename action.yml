@@ -103,10 +103,11 @@ runs:
     - working-directory: "${{ env.TMP_DSTDIR }}"
       # mv -vf "../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }}" "../${{ inputs.output-directory }}"
       run: |
-        git checkout -b "${{ env.PR_BRANCH }}"
+        # git checkout -b "${{ env.PR_BRANCH }}"
         pwd
-        ls -l  "../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }}"
-        mv -f "../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }}" "../${{ inputs.output-directory }}/"
+        ls -l ../
+        # ls -l  "../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }}"
+        # mv -f "../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }}" "../${{ inputs.output-directory }}/"
         # mv -f /home/runner/work/outbound-review/outbound-review/source/* /home/runner/work/outbound-review/outbound-review/${{ inputs.output-directory }}/
         ls -l "../${{ inputs.output-directory }}/"
         # git add "${{ inputs.output-directory }}/."
