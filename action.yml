@@ -99,17 +99,24 @@ runs:
       shell: bash
 
       # we cannot change current directory
-    - run: cd "${{ env.TMP_DSTDIR }}"
-      shell: bash
-    - run: ls -l ./*
-      shell: bash
-
-    - working-directory: "${{ env.TMP_DSTDIR }}"
-      run: git checkout -b "${{ env.PR_BRANCH }}"
+    - run: |
+        cd "${{ env.TMP_DSTDIR }}"
+        pwd
+        ls -l ./*
+        ls -l ../TMP_SRCDIR/*
       shell: bash
 
     - working-directory: "${{ env.TMP_DSTDIR }}"
-      run: mkdir -p "${{ inputs.output-directory }}"
+      run: |
+        pwd
+        git checkout -b "${{ env.PR_BRANCH }}"
+      shell: bash
+
+    - working-directory: "${{ env.TMP_DSTDIR }}"
+      run: |
+        pwd
+        mkdir -p "${{ inputs.output-directory }}"
+        ls -l ./*
       shell: bash
 
     - working-directory: "${{ env.TMP_DSTDIR }}"
