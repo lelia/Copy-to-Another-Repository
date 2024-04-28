@@ -101,7 +101,7 @@ runs:
       run: |
         git checkout -b "${{ env.PR_BRANCH }}"
         mkdir -p "${{ inputs.output-directory }}"
-        mv -vf ".././${{ env.TMP_SRCDIR }}/${{ inputs.target-path }}" "../${{ inputs.output-directory }}"
+        mv -vf "../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }}" "../${{ inputs.output-directory }}"
         git add "${{ inputs.output-directory }}/."
         git commit -am "${{ inputs.commit-message-prefix }}${{ github.event.repository.name }}${{ env.COMMIT_TITLE_APPENDIX }}"
         git push origin HEAD
