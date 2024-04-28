@@ -103,9 +103,11 @@ runs:
         # mv -vf ../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }} ${{ inputs.output-directory }}/
         # ls -la ${{ inputs.output-directory }}/*
         # mv -vf ../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }} ${{ inputs.output-directory }}/
-        git subtree add --prefix ${{ inputs.output-directory }} https://github.com/${{ inputs.target-repo }} ${{ inputs.output-branch }} --squash
-        git remote add ${{ inputs.target-repo }} https://github.com/${{ inputs.target-repo }}
-        git subtree push --prefix=${{ inputs.output-directory }} https://github.com/${{ inputs.target-repo }} "${{ env.PR_BRANCH }}"
+        git checkout -b "${{ env.PR_BRANCH }}"
+        git remote add git@github.com:${{ inputs.target-repo }}.git
+        git subtree add --prefix=${{ inputs.output-directory }} ${{ inputs.target-repo }} ${{ inputs.output-branch }} --squash
+        git subtree pull --prefix=${{ inputs.output-directory }} ${{ inputs.target-repo }} ${{ inputs.output-branch }} --squash
+        git subtree push --prefix=${{ inputs.output-directory }} ${{ inputs.target-repo }} "${{ env.PR_BRANCH }}"
         # git submodule add https://github.com/${{ inputs.target-repo }} outbound-review
         # git add "${{ inputs.output-directory }}/."
         # git commit -am "${{ inputs.commit-message-prefix }}${{ github.event.repository.name }}${{ env.COMMIT_TITLE_APPENDIX }}"
