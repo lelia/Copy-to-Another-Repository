@@ -2,23 +2,19 @@ name: Deploy2OM
 
 on:
   workflow_dispatch: # Allows you to run this workflow manually from the Actions tab
-  push:
-    branches: [ main ]
-    branches-ignore:
-    tags:
-    tags-ignore:
-    paths:
-      - 'README.md'   # limit trigger to the target-filepath
+#  push:
+#    branches: [main]
+#    paths:
+#      - "README.md" # limit trigger to the target-path
 
 jobs:
   main:
     runs-on: ubuntu-latest
     steps:
-      - uses: sator-imaging/Copy-to-Another-Repository@main   # @v1 or @main
+      - uses: sator-imaging/Copy-to-Another-Repository@main # @v1 or @main
         with:
-
           # required parameters
-          target-filepath: 'README.md'     # file path to copy
-          output-branch: 'master'  # branch name to create pull request
-          output-repo: 'SatorImaging/OpenManual'
+          target-path: "README.md" # file path to copy
+          output-branch: "master" # branch name to create pull request
+          output-repo: "SatorImaging/OpenManual"
           git-token: ${{ secrets.Deploy2OM }}
