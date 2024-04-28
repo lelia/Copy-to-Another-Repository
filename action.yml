@@ -104,8 +104,8 @@ runs:
         git checkout -b "${{ env.PR_BRANCH }}"
         pwd
         ls -l /home/runner/work/outbound-review/outbound-review/source/*
-        ls -l /home/runner/work/outbound-review/outbound-review/${{ inputs.output-directory }}
         mv -f /home/runner/work/outbound-review/outbound-review/source/README.md /home/runner/work/outbound-review/outbound-review/${{ inputs.output-directory }}/
+        ls -l /home/runner/work/outbound-review/outbound-review/${{ inputs.output-directory }}
         # git add "${{ inputs.output-directory }}/."
         # git commit -am "${{ inputs.commit-message-prefix }}${{ github.event.repository.name }}${{ env.COMMIT_TITLE_APPENDIX }}"
         # git push origin HEAD
