@@ -106,6 +106,8 @@ runs:
         # git checkout -b "${{ env.PR_BRANCH }}"
         pwd
         ls -l ../
+        ls -l ../source/
+        ls -l ../source/*
         # ls -l  "../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }}"
         # mv -f "../${{ env.TMP_SRCDIR }}/${{ inputs.target-path }}" "../${{ inputs.output-directory }}/"
         # mv -f /home/runner/work/outbound-review/outbound-review/source/* /home/runner/work/outbound-review/outbound-review/${{ inputs.output-directory }}/
