@@ -69,12 +69,6 @@ runs:
         echo "COMMIT_TITLE_APPENDIX= - ${{ inputs.target-repo }}" >> $GITHUB_ENV
       shell: bash
 
-    # - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
-    #   with:
-    #     persist-credentials: false
-    #     path: "${{ env.TMP_SRCDIR }}"
-    #     repository: "${{ inputs.target-repo }}"
-
     - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
       with:
         persist-credentials: false
@@ -92,15 +86,10 @@ runs:
     - working-directory: "${{ env.TMP_DSTDIR }}"
       run: |
         git checkout -b "${{ env.PR_BRANCH }}"
-        # git remote add -f osc/cisco-ospo/sample-project https://github.com/cisco-ospo/sample-project
         git remote add -f ${{ inputs.output-directory }}/${{ inputs.target-repo }} https://github.com/${{ inputs.target-repo }}
-        # git merge -s ours --no-commit --allow-unrelated-histories osc/cisco-ospo/sample-project/main
         git merge -s ours --no-commit --allow-unrelated-histories ${{ inputs.output-directory }}/${{ inputs.target-repo}}/${{ inputs.output-branch }}
-        # git read-tree --prefix=osc/cisco-ospo/sample-project -u osc/cisco-ospo/sample-project/main
         git read-tree --prefix=${{ inputs.output-directory }}/${{ inputs.target-repo}} -u ${{ inputs.output-directory }}/${{ inputs.target-repo}}/${{ inputs.output-branch }}
-        # git commit -m "Subtree merged in cisco-ospo/sample-project"
         git commit -m "Subtree merged in ${{ inputs.target-repo }}"
-        # git push origin outbound-review_cisco-ospo-sample-project_1
         git push origin "${{ env.PR_BRANCH }}"
       shell: bash
   
