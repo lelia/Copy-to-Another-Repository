@@ -63,27 +63,21 @@ runs:
         echo "ACTION_REPO=$( echo $GITHUB_ACTION | sed 's/_/\//g' | sed 's/\///' )" >> $GITHUB_ENV
         echo "PR_BRANCH=${{ inputs.pr-branch-prefix }}---$(date +'%Y-%m-%d--%H-%M-%S')" >> $GITHUB_ENV
         echo "PR_MESSAGE=${{ inputs.pr-message }}" >> $GITHUB_ENV
-        # echo "TMP_DSTDIR=./dest" >> $GITHUB_ENV
         echo "PR_TITLE_APPENDIX= ${{ inputs.target-repo }}" >> $GITHUB_ENV
         echo "COMMIT_TITLE_APPENDIX= - ${{ inputs.target-repo }}" >> $GITHUB_ENV
         echo "target repo processed as: ${{ inputs.target-repo}}"
       shell: bash
 
-    - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
+    - uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4.1.5
       with:
-        persist-credentials: false
-        # TODO: is this temp dir actually needed?
-        # path: "${{ env.TMP_DSTDIR }}"
         repository: "${{ inputs.output-repo }}"
+        persist-credentials: false
     
-    # - working-directory: "${{ env.TMP_DSTDIR }}"
     - run: |
         git config --global user.name "${{ inputs.git-name }}"
         git config --global user.email "${{ inputs.git-email }}"
         git config --global url."https://${{ inputs.git-token }}@github.com/".insteadOf "https://github.com/"
         mkdir -p "${{ inputs.output-directory }}"
-        # TODO: See if this still works after swapping checkout step
-        # git checkout -b "${{ env.PR_BRANCH }}"
         git remote add -f ${{ inputs.output-directory }}/${{ inputs.target-repo }} https://github.com/${{ inputs.target-repo }}
         git merge -s ours --no-commit --allow-unrelated-histories ${{ inputs.output-directory }}/${{ inputs.target-repo}}/${{ inputs.output-branch }}
         git read-tree --prefix=${{ inputs.output-directory }}/${{ inputs.target-repo}} -u ${{ inputs.output-directory }}/${{ inputs.target-repo}}/${{ inputs.output-branch }}
