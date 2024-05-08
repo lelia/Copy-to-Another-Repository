@@ -68,6 +68,7 @@ runs:
     - uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4.1.5
       with:
         repository: "${{ inputs.output-repo }}"
+        persist-credentials: false
     
     - run: |
         git config --global user.name "${{ inputs.git-name }}"
